@@ -6,13 +6,7 @@ class scene2 extends Phaser.Scene {
     constructor() {
         super("playGame");
     }
-preload() {
-    this.load.image("kreis", "assets/temp.png");
-}
-create() {
-
-}
-/*    preload() {
+    preload() {
         this.load.image("boden", "assets/logo.png")
         this.load.image("kreis", "assets/temp.png")
     }
@@ -22,11 +16,11 @@ create() {
         input = this.input;
         mouse = this.input.mousePointer;
         knoten = this.add.sprite(300,300, "kreis").setScale(0.1).setInteractive();
-        knoten.on('pointerdown', function () {
+        /*knoten.on('pointerdown', function () {
             text.setText("knoten1");
         });
-        
-        boden.on("pointerover", function (event) {
+        */
+        knoten.on("pointerover", function (event) {
             this.setTint(0xff0000);
         });
 
@@ -34,10 +28,10 @@ create() {
     update() {
        //Knoten erschaffen
         if (mouse.isDown) {
-            boden = this.physics.add.sprite(input.x,input.y,"kreis").setScale(0.1);
+            boden = this.physics.add.image(input.x,input.y,"kreis").setScale(0.1);
             //evtl rotation
             //let angle = Phaser.Math.Angle.Between(100,100,input.x,input.y);
             //boden.setRotation(angle);
        }
-    }*/
+    }
 }

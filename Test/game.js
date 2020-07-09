@@ -1,13 +1,14 @@
 window.onload = function() {
     var config = {
-        width: 400,
-        height: 600,
-        backgroundColor: 0xFF0000,
+        width: 1000,
+        height: 1000,
+        backgroundColor: 0x00000,
         scene: [scene1, scene2],
         physics:{
             default:'arcade',
             arcade:{
-                gravity:{y:0}
+                gravity:{y:0,
+                debug: false}
             }
         }
     }
