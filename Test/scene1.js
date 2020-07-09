@@ -1,18 +1,9 @@
 var joints = [
-    new Phaser.Geom.Point(420, 280),
-    new Phaser.Geom.Point(450, 250),
-    new Phaser.Geom.Point(470, 300),
-    new Phaser.Geom.Point(499, 230),
-    new Phaser.Geom.Point(499, 240),
-    new Phaser.Geom.Point(480, 230)
+    new Phaser.Geom.Point(100, 300),
+    new Phaser.Geom.Point(800, 300),
 ];
 
 var edges = [
-    [0, 1],
-    [1, 2],
-    [2, 3],
-    [3, 4],
-    [4, 5]
 ]
 
 var selected = null;
@@ -27,7 +18,7 @@ class scene1 extends Phaser.Scene {
     }
     create ()
     {
-        var graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa6622 } });
+        var graphics = this.add.graphics({ lineStyle: { width: 10, color: 0x00ff00 } });
 
 
 
@@ -39,9 +30,8 @@ class scene1 extends Phaser.Scene {
                 } else {
                     tmpPoint = Phaser.Geom.Point.Clone(joints[near]);
                 }
-                let distance = distanceTo(pointer.x, pointer.y, joints[selected]);
-                console.log(distance);
-                if (distance > 50) {
+                let distance = distanceTo(tmpPoint.x, tmpPoint.y, joints[selected]);
+                if (distance > 100) {
                     isPointValid = false;
                 } else {
                     isPointValid = true;
@@ -113,7 +103,10 @@ class scene1 extends Phaser.Scene {
         {
             graphics.clear();
             graphics.beginPath();
-            edges.forEach(function (item, index) {
+            joints.forEach(function (item) {
+                graphics.strokeCircle(item.x, item.y, 10);
+            });
+            edges.forEach(function (item) {
                 graphics.moveTo(joints[item[0]].x, joints[item[0]].y);
                 graphics.lineTo(joints[item[1]].x, joints[item[1]].y);
             });
