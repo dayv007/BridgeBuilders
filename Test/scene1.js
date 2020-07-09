@@ -55,7 +55,7 @@ class scene1 extends Phaser.Scene {
                 if (near == null) {
                     joints.push(Phaser.Geom.Point.Clone(pointer));
                     edges.push([selected, joints.length - 1]);
-                } else {
+                } else if (!doesEdgeExist([selected, near])) {
                     edges.push([selected, near]);
                 }
                 selected = null;
@@ -66,6 +66,17 @@ class scene1 extends Phaser.Scene {
 
             redraw();
         });
+
+        function doesEdgeExist(edge) {
+            let result = false;
+            edges.forEach(function (item) {
+                if ((item[0] == edge[0] && item[1] == edge[1]) // hail arrays and not sets because why would you need sets?
+                 || (item[0] == edge[1] && item[1] == edge[0])) {
+                    result = true;
+                }
+            });
+            return result;
+        }
 
         function edgeLength(edge) {
             return distanceTo(joints[edge[0]].x, joints[edge[0]].y, joints[edge[1]]);
