@@ -3,7 +3,7 @@ window.onload = function() {
         width: 1000,
         height: 600,
         backgroundColor: 0x00000,
-        scene: [scene1, scene2],
+        scene: [scene1, scene2, scene3],
         physics:{
             default:'arcade',
             arcade:{
