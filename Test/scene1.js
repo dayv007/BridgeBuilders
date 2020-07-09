@@ -11,7 +11,6 @@ var state = 0;
 var tmpPoint = null;
 
 class scene1 extends Phaser.Scene {
-
     constructor() {
         super("bootGame");
     }
@@ -139,8 +138,19 @@ class scene1 extends Phaser.Scene {
             graphics.strokePath();
         }
 
+        this.input.keyboard.on('keydown-F', function (event) {
+            state = 2;
+        });
+
         redraw();
     }
+
+    update() {
+        if (state == 2) {
+            this.scene.start('playGame');
+        }
+    }
+
     /*{
         var graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa6622 } });
     
