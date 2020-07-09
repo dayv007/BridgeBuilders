@@ -9,7 +9,6 @@ var edges = [
 var selected = null;
 var state = 0;
 var tmpPoint = null;
-var isPointValid = false;
 
 class scene1 extends Phaser.Scene {
 
@@ -30,38 +29,49 @@ class scene1 extends Phaser.Scene {
                 } else {
                     tmpPoint = Phaser.Geom.Point.Clone(joints[near]);
                 }
+
                 let distance = distanceTo(tmpPoint.x, tmpPoint.y, joints[selected]);
+
                 if (distance > 100) {
-                    isPointValid = false;
-                } else {
-                    isPointValid = true;
+                    let x1 = tmpPoint.x, y1 = tmpPoint.y;
+                    let x2 = joints[selected].x, y2 = joints[selected].y;
+
+                    x1 = ((x1 - x2) * 100 / distance) + x2;
+                    y1 = ((y1 - y2) * 100 / distance) + y2;
+
+                    tmpPoint.x = x1;
+                    tmpPoint.y = y1;
+                    //tmpPoint.subtract(joints[selected]).scale(100/distance).add(joints[selected]);
                 }
 
                 redraw();
             }
         });
 
+        function shorten(pointA, pointB) {
+        }
+
         this.input.on('pointerdown', function (pointer) {
-            let near = nearJoint(pointer.x, pointer.y);
 
             if (state === 0) {
+                let near = nearJoint(pointer.x, pointer.y);
                 if (near == null) {
                     return;
                 }
                 selected = near;
                 state = 1;
                 tmpPoint = Phaser.Geom.Point.Clone(pointer);
-            } else if (state == 1 && isPointValid) {
+            } else if (state == 1) {
+                let near = nearJoint(tmpPoint.x, tmpPoint.y);
                 if (near == null) {
-                    joints.push(Phaser.Geom.Point.Clone(pointer));
+                    joints.push(Phaser.Geom.Point.Clone(tmpPoint));
                     edges.push([selected, joints.length - 1]);
-                } else if (!doesEdgeExist([selected, near])) {
+                } else if (!doesEdgeExist([selected, near]) && selected != near) {
                     edges.push([selected, near]);
                 }
                 selected = null;
                 state = 0;
                 tmpPoint = null;
-                isPointValid = false;
             }
 
             redraw();
@@ -121,7 +131,7 @@ class scene1 extends Phaser.Scene {
                 graphics.moveTo(joints[item[0]].x, joints[item[0]].y);
                 graphics.lineTo(joints[item[1]].x, joints[item[1]].y);
             });
-            if (state == 1 && isPointValid) {
+            if (state == 1) {
                 graphics.moveTo(joints[selected].x, joints[selected].y);
                 graphics.lineTo(tmpPoint.x, tmpPoint.y);
             }
